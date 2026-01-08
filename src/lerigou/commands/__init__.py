@@ -1,0 +1,1 @@
+"""Comandos do CLI lerigou."""

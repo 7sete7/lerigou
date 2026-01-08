@@ -1,0 +1,1 @@
+"""Utilitários gerais do lerigou."""
