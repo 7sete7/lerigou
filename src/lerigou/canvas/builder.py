@@ -9,9 +9,7 @@ from lerigou.canvas.models import Canvas, CanvasColor, Edge, Node
 class GroupBuilder:
     """Builder para construção de grupos no canvas."""
 
-    def __init__(
-        self, parent: "CanvasBuilder", label: str, color: CanvasColor | None = None
-    ):
+    def __init__(self, parent: "CanvasBuilder", label: str, color: CanvasColor | None = None):
         self.parent = parent
         self.label = label
         self.color = color

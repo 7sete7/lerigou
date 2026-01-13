@@ -128,14 +128,10 @@ class PythonAnalyzer(CodeParser):
 
         for child_node in node.body:
             if isinstance(child_node, ast.FunctionDef):
-                cls.add_child(
-                    self._analyze_function(child_node, file_name, is_method=True)
-                )
+                cls.add_child(self._analyze_function(child_node, file_name, is_method=True))
             elif isinstance(child_node, ast.AsyncFunctionDef):
                 cls.add_child(
-                    self._analyze_function(
-                        child_node, file_name, is_async=True, is_method=True
-                    )
+                    self._analyze_function(child_node, file_name, is_async=True, is_method=True)
                 )
             elif isinstance(child_node, ast.ClassDef):
                 # Classe aninhada

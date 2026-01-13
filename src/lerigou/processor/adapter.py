@@ -3,6 +3,7 @@
 from lerigou.canvas.layout import LayoutEngine, LayoutItem
 from lerigou.canvas.models import Canvas, Edge
 from lerigou.processor.models import CodeElement, CodeGraph, ElementType
+from lerigou.utils.text_dimensions import calculate_node_dimensions
 
 # Mapeamento de cores semânticas
 COLORS = {
@@ -240,16 +241,20 @@ class CodeToCanvasAdapter:
         # Gera o texto do node
         text = self._generate_node_text(element)
 
-        # Determina a altura baseada no conteúdo
-        line_count = text.count("\n") + 1
-        height = max(self.node_height, line_count * 20 + 20)
+        # Calcula dimensões baseado no conteúdo real
+        width, height = calculate_node_dimensions(
+            text,
+            node_type=element.element_type.value if element.element_type else "text",
+            base_width=self.node_width,
+            base_height=self.node_height,
+        )
 
         # Determina a cor
         color = COLORS.get(element.element_type)
 
         return self._layout.node(
             text=text,
-            width=self.node_width,
+            width=width,
             height=height,
             color=color,
             node_id=node_id,
