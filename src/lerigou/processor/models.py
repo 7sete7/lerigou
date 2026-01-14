@@ -14,6 +14,7 @@ class ElementType(str, Enum):
     VARIABLE = "variable"
     IMPORT = "import"
     CALL = "call"
+    COMPONENT = "component"  # React/Vue components
 
 
 @dataclass
@@ -46,6 +47,19 @@ class Import:
     alias: str | None = None
     is_from: bool = False  # from X import Y vs import X
     line_number: int = 0
+    specifiers: list[dict[str, str]] = field(default_factory=list)
+
+
+@dataclass
+class APICall:
+    """Representa uma chamada de API (fetch, axios, etc.)."""
+
+    method: str  # GET, POST, PUT, DELETE, PATCH
+    path: str  # /api/users, /users/{id}
+    client: str  # fetch, axios, apiClient
+    line_number: int = 0
+    is_external: bool = False  # True se não encontrou endpoint no repo
+    matched_endpoint: str | None = None  # Arquivo/função do endpoint encontrado
 
 
 @dataclass
@@ -78,6 +92,7 @@ class CodeElement:
     # Dependências e chamadas
     calls: list[FunctionCall] = field(default_factory=list)
     imports: list[Import] = field(default_factory=list)
+    api_calls: list[APICall] = field(default_factory=list)
 
     # Dados de fluxo
     inputs: list[str] = field(default_factory=list)  # Dados que entram
@@ -134,6 +149,13 @@ class CodeElement:
             result.extend(child.get_all_calls())
         return result
 
+    def get_all_api_calls(self) -> list[APICall]:
+        """Retorna todas as chamadas de API deste elemento e filhos."""
+        result = list(self.api_calls)
+        for child in self.children:
+            result.extend(child.get_all_api_calls())
+        return result
+
     def to_markdown(self, include_params: bool = True) -> str:
         """Gera uma representação Markdown do elemento."""
         lines = []
@@ -155,7 +177,10 @@ class CodeElement:
                 lines.append(f"`@{dec}`")
 
         # Signature para funções/métodos
-        if self.element_type in (ElementType.FUNCTION, ElementType.METHOD) and include_params:
+        if (
+            self.element_type in (ElementType.FUNCTION, ElementType.METHOD)
+            and include_params
+        ):
             params = []
             for p in self.parameters:
                 param_str = p.name

@@ -50,8 +50,8 @@ class AIToCanvasAdapter:
         self,
         node_width: int = 250,
         node_height: int = 80,
-        h_spacing: int = 80,
-        v_spacing: int = 60,
+        h_spacing: int = 110,
+        v_spacing: int = 90,
         data_section_x: int = 900,
     ):
         self.node_width = node_width

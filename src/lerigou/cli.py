@@ -4,7 +4,7 @@ import typer
 from rich.console import Console
 
 from lerigou import __version__
-from lerigou.commands import create_canvas, create_canvas_v2
+from lerigou.commands import create_canvas
 
 app = typer.Typer(
     name="lerigou",
@@ -39,7 +39,6 @@ def main(
 
 # Registra os comandos
 app.command(name="create-canvas")(create_canvas.create_canvas)
-app.command(name="create-canvas-v2")(create_canvas_v2.create_canvas_v2)
 
 
 if __name__ == "__main__":

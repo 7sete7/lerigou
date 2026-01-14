@@ -53,6 +53,7 @@ def get_parser_for_file(file_path: Path) -> CodeParser | None:
         Parser apropriado ou None se não suportado
     """
     from lerigou.processor.analyzers.python import PythonAnalyzer
+    from lerigou.processor.analyzers.typescript import TypeScriptAnalyzer
 
     suffix = file_path.suffix.lower()
 
@@ -60,5 +61,8 @@ def get_parser_for_file(file_path: Path) -> CodeParser | None:
     if suffix in (".py", ".pyw", ".pyi"):
         return PythonAnalyzer()
 
-    # Extensível para outras linguagens no futuro
+    # TypeScript/JavaScript
+    if suffix in (".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"):
+        return TypeScriptAnalyzer()
+
     return None

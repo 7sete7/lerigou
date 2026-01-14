@@ -14,7 +14,11 @@ def build_analysis_prompt(code_context: str, entrypoint: str) -> str:
     """Constrói o prompt de análise para a IA."""
     return f"""# Tarefa: Análise de Fluxo de Código
 
-Analise o código Python abaixo e extraia o FLUXO DE EXECUÇÃO LINEAR, como um fluxograma.
+Analise o código abaixo e extraia o FLUXO DE EXECUÇÃO LINEAR, como um fluxograma.
+
+**IMPORTANTE**: Se houver uma seção "Frontend → Backend", ela indica quais endpoints são chamados
+por um componente frontend. Você deve analisar o FLUXO DO BACKEND (código Python) que processa
+essas chamadas. O frontend é apenas o ponto de entrada.
 
 ## Código a Analisar
 

@@ -1,0 +1,15 @@
+{
+  "name": "lerigou-ts-parser",
+  "version": "1.0.0",
+  "description": "TypeScript parser for lerigou CLI",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "parse": "node scripts/parse-ts.js"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.24.0",
+    "@babel/traverse": "^7.24.0",
+    "@babel/types": "^7.24.0"
+  }
+}
